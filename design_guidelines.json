@@ -1,0 +1,123 @@
+{
+  "theme": "dark",
+  "typography": {
+    "fonts": {
+      "heading": "Cormorant Garamond",
+      "body": "Manrope",
+      "accent": "JetBrains Mono"
+    },
+    "hierarchy": {
+      "h1": "text-5xl sm:text-6xl md:text-7xl tracking-tighter leading-none font-medium",
+      "h2": "text-4xl sm:text-5xl tracking-tight leading-tight",
+      "h3": "text-2xl sm:text-3xl tracking-tight",
+      "body": "text-base sm:text-lg leading-relaxed text-neutral-300",
+      "overline": "text-xs sm:text-sm uppercase tracking-[0.2em] font-medium text-neutral-400",
+      "quote": "text-2xl sm:text-3xl italic font-serif leading-relaxed text-neutral-200"
+    },
+    "instructions": "Use Cormorant Garamond for all primary headings to establish an editorial, high-end gallery feel. Use Manrope for high legibility on body text and UI controls. Use JetBrains Mono or a monospace font strictly for small metadata like years, image numbers, or technical camera details."
+  },
+  "colors": {
+    "background": {
+      "primary": "#050505",
+      "secondary": "#0A0A0A",
+      "surface": "#121212"
+    },
+    "text": {
+      "primary": "#F5F5F5",
+      "secondary": "#A3A3A3",
+      "muted": "#737373"
+    },
+    "accent": {
+      "primary": "#C9A25E",
+      "hover": "#E3BA74"
+    },
+    "borders": {
+      "subtle": "rgba(255, 255, 255, 0.1)",
+      "strong": "rgba(255, 255, 255, 0.2)"
+    },
+    "instructions": "Strict monochrome foundation (Obsidian to Off-White) allowing the photography to provide the color. Accent color is a muted, earthy gold to signify awards and premium quality, used sparingly on interactive elements or timeline markers. Do not use generic blues or greens. Backgrounds should feel deep and cinematic."
+  },
+  "layouts": {
+    "spacing": "Use generous spacing. Minimum section padding should be py-24 or py-32. Elements should have room to breathe.",
+    "grid": {
+      "marketing": "Use Bento 'Tetris' grid for the photo gallery. grid-cols-1 md:grid-cols-12 gap-4 or gap-8. Create asymmetry by spanning images col-span-8, col-span-4, row-span-2. Never make a perfect uniform grid of squares.",
+      "admin": "Use strict CSS grid (grid-cols-4 or grid-cols-12) for the admin panel with gap-6, optimizing for data density and form usability."
+    },
+    "hero": "Full-bleed viewport height (min-h-screen). Absolute positioned background image with a dark gradient overlay (bg-black/40). Text should be aligned bottom-left or centered with masked line-by-line reveal.",
+    "header": "Sticky or fixed header must use backdrop-blur-xl and bg-black/60. Never fully transparent if content scrolls beneath."
+  },
+  "components": {
+    "buttons": "Sharp corners (rounded-none) or slight (rounded-sm). 1px solid border with transparent background for secondary. Solid accent color for primary. Hover states must use smooth transitions.",
+    "cards": "For the admin panel, use Shadcn Card components. For the public portfolio, do NOT use traditional cards. Use raw layout elements (div, span) to create flat, editorial 'clipped frame' layouts with 1px borders.",
+    "gallery_image": "Images should have sharp edges (no border-radius). Implement 'Spotlight' effect: default state grayscale or slightly dimmed (opacity-80), on hover scale up slightly (scale-105 within overflow-hidden container) and full brightness/color.",
+    "timeline": "Vertical line (border-l) with staggered dots for years. Simple, text-heavy editorial presentation.",
+    "marquee": "Use react-fast-marquee. Extremely slow speed. Use large Serif outline text or subtle uppercase sans-serif with wide tracking.",
+    "admin_panel": "Standard Shadcn UI implementation. Form inputs, tables, and dialogs. Must integrate with Cloudinary for image and logo uploads."
+  },
+  "motion": {
+    "scroll": "MANDATORY: Use `@studio-freight/lenis` for smooth momentum scrolling. It gives the site a premium physical feel.",
+    "reveals": "Use `framer-motion`. For headings, split text by lines, wrap in `overflow-hidden`, and animate `y` from 100% to 0%. For gallery images, use `whileInView` with a slight upward translate and opacity fade-in (y: 30, opacity: 0 to 1).",
+    "micro_interactions": "Image hover states should be smooth (duration-500 ease-out). Buttons should have a slight background fill slide or border color shift."
+  },
+  "media": {
+    "images": [
+      {
+        "category": "hero",
+        "url": "https://images.unsplash.com/photo-1549366021-9f761d450615?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHwzfHx3aWxkbGlmZSUyMHBob3RvZ3JhcGh5JTIwdGlnZXIlMjBsZW9wYXJkJTIwZWxlcGhhbnR8ZW58MHx8fHwxNzg1MTc2NDM4fDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Majestic Elephant in forest - Cinematic"
+      },
+      {
+        "category": "gallery_bird",
+        "url": "https://images.unsplash.com/photo-1610626193724-25b4228dbc2c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2ODl8MHwxfHNlYXJjaHwyfHxjaW5lbWF0aWMlMjBiaXJkJTIwZmxpZ2h0JTIwbmF0dXJlfGVufDB8fHx8MTc4NTE3NjQzN3ww&ixlib=rb-4.1.0&q=85",
+        "alt": "Seagull flying cinematic"
+      },
+      {
+        "category": "gallery_behavior",
+        "url": "https://images.unsplash.com/photo-1591824438708-ce405f36ba3d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHw0fHx3aWxkbGlmZSUyMHBob3RvZ3JhcGh5JTIwdGlnZXIlMjBsZW9wYXJkJTIwZWxlcGhhbnR8ZW58MHx8fHwxNzg1MTc2NDM4fDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Tiger walking"
+      },
+      {
+        "category": "gallery_behavior",
+        "url": "https://images.unsplash.com/photo-1544979590-37e9b47eb705?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHwyfHx3aWxkbGlmZSUyMHBob3RvZ3JhcGh5JTIwdGlnZXIlMjBsZW9wYXJkJTIwZWxlcGhhbnR8ZW58MHx8fHwxNzg1MTc2NDM4fDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Leopard close up"
+      },
+      {
+        "category": "about_photographer",
+        "url": "https://images.unsplash.com/photo-1600174097100-3f347cf15996?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNDR8MHwxfHNlYXJjaHwyfHx3aWxkbGlmZSUyMHBob3RvZ3JhcGhlciUyMGZvcmVzdHxlbnwwfHx8fDE3ODUxNzY0Mzd8MA&ixlib=rb-4.1.0&q=85",
+        "alt": "Photographer silhouette at sunset"
+      },
+      {
+        "category": "book_showcase",
+        "url": "https://images.unsplash.com/photo-1607355237628-bd1276a1c567?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHxuYXR1cmUlMjBib29rJTIwbGF5b3V0fGVufDB8fHx8MTc4NTE3NjQzN3ww&ixlib=rb-4.1.0&q=85",
+        "alt": "Nature book layout"
+      }
+    ],
+    "image_treatment": "Do not use placeholder image services. All images must load from real URLs. Add loading states/skeletons for gallery images."
+  },
+  "accessibility": {
+    "contrast": "Ensure text over images always has a text-shadow or a background overlay gradient to meet 4.5:1 contrast.",
+    "testing": "All interactive elements (buttons, nav links, admin forms, gallery filters) MUST include a data-testid attribute for automated testing.",
+    "motion": "Respect prefers-reduced-motion media query by disabling framer-motion animations if set."
+  },
+  "libraries": {
+    "required": [
+      "framer-motion",
+      "@studio-freight/lenis",
+      "lucide-react",
+      "react-fast-marquee"
+    ],
+    "3d_optional": "React Spring Parallax can be used for the hero background to give depth to the wildlife subject on scroll."
+  },
+  "instructions_to_main_agent": [
+    "Install required dependencies: framer-motion @studio-freight/lenis react-fast-marquee.",
+    "Set up Tailwind with the dark theme colors and fonts. Import Cormorant Garamond and Manrope from Google Fonts.",
+    "Build the Kinetic Hero first. Ensure the 'line-by-line' text reveal on the H1 (Mihirkumar Ranva) works flawlessly using framer-motion.",
+    "Implement the 'Tetris' grid for the photo gallery. It must look like an editorial spread, not a generic bootstrap grid.",
+    "Add the numbered Manifesto chapters as distinct sections with large serif numbers and deep typography.",
+    "Build an Achievements timeline from 2011 to 2026.",
+    "Implement the Cloudinary upload functionality within the Shadcn-powered Admin panel for managing logo and photos.",
+    "Add the slow Editorial Marquee before the footer.",
+    "Apply `data-testid` to all actionable components."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": "Avoid generic centered layouts and uniform styling. Create depth. Use glass-morphism (backdrop-blur) for sticky headers. Never apply 'transition: all' globally. Do not center-align the main app container. Use modern sharp or slightly rounded button styles with hover animations. Do not use emojis as icons, use lucide-react. Every interaction needs micro-animations. Ensure generous spacing throughout."
+}
