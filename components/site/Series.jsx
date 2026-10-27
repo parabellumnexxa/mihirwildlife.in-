@@ -190,7 +190,7 @@ export const Series = ({ collections = {} }) => {
                             src={withWatermark(p.image_url)}
                             alt={p.title}
                             loading="lazy"
-                            className="w-full h-full object-cover opacity-85 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
+                            className={`w-full h-full object-cover ${p.height && p.width && p.height > p.width * 1.05 ? "object-[center_top]" : "object-center"} opacity-85 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110`}
                           />
                         </button>
                       ))}

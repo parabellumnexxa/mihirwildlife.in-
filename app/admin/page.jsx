@@ -410,6 +410,7 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
         public_id: editing.public_id,
         order: editing.order,
         featured: editing.featured,
+        thumbnail_align: editing.thumbnail_align || "auto",
       });
       toast.success("Photo updated successfully.");
       setEditing(null);
@@ -1094,11 +1095,30 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
                     Category
                   </label>
                   <Select modal={false} value={editing.category} onValueChange={(v) => setEditing({ ...editing, category: v })}>
-                    <SelectTrigger data-testid="edit-category" className="bg-transparent border-white/20 rounded-none text-white"><SelectValue /></SelectTrigger>
-                    <SelectContent className="bg-neutral-900 border-white/20 text-white z-[99999]">
+                    <SelectTrigger data-testid="edit-category" className="bg-transparent border-white/20 rounded-none text-white">
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-neutral-900 border-white/20 text-white z-[100050]">
                       {categories.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
                     </SelectContent>
                   </Select>
+                  {/* Quick Category Selection Chips */}
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {categories.map((c) => (
+                      <button
+                        key={c}
+                        type="button"
+                        onClick={() => setEditing({ ...editing, category: c })}
+                        className={`text-[10px] px-2 py-0.5 border transition-all ${
+                          editing.category === c
+                            ? "bg-accent text-black border-accent font-semibold shadow-sm"
+                            : "bg-white/5 border-white/15 text-neutral-300 hover:text-white hover:border-white/30"
+                        }`}
+                      >
+                        {c}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div>
                   <label className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono-accent block mb-1">
@@ -1121,7 +1141,7 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
                     <SelectTrigger className="bg-transparent border-white/20 rounded-none text-white">
                       <SelectValue placeholder="Choose Series" />
                     </SelectTrigger>
-                    <SelectContent className="bg-neutral-900 border-white/20 text-white max-h-56 z-[99999]">
+                    <SelectContent className="bg-neutral-900 border-white/20 text-white max-h-56 z-[100050]">
                       <SelectItem value="__NONE__">— No Series —</SelectItem>
                       {allSeriesList.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                     </SelectContent>
@@ -1145,6 +1165,33 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
                   One-line field story (shown in lightbox)
                 </label>
                 <Textarea data-testid="edit-story" value={editing.story || ""} onChange={(e) => setEditing({ ...editing, story: e.target.value })} rows={2} placeholder="One-line field story" className="bg-transparent border-white/20 rounded-none resize-none text-white" />
+              </div>
+
+              <div>
+                <label className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono-accent block mb-1.5">
+                  Thumbnail Framing / Vertical Focus:
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { id: "auto", label: "✨ Auto (Head / Subject)" },
+                    { id: "top", label: "Top (Head / Eyes)" },
+                    { id: "center", label: "Center" },
+                    { id: "bottom", label: "Bottom / Perch" },
+                  ].map((f) => (
+                    <button
+                      key={f.id}
+                      type="button"
+                      onClick={() => setEditing({ ...editing, thumbnail_align: f.id })}
+                      className={`text-xs px-3 py-1 border transition-all ${
+                        (editing.thumbnail_align || "auto") === f.id
+                          ? "bg-accent text-black border-accent font-semibold shadow-sm"
+                          : "bg-white/5 border-white/15 text-neutral-400 hover:text-white"
+                      }`}
+                    >
+                      {f.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-4 pt-3 border-t border-white/10">

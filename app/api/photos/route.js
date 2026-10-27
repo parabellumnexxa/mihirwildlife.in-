@@ -39,6 +39,7 @@ export async function POST(request) {
       public_id: body.public_id || null,
       width: body.width || null,
       height: body.height || null,
+      thumbnail_align: body.thumbnail_align || null,
       featured: Boolean(body.featured),
       order: body.order ?? 0,
       created_at: new Date().toISOString(),

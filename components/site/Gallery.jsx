@@ -32,6 +32,14 @@ export const Gallery = ({ categories }) => {
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const [detectedPortraits, setDetectedPortraits] = useState({});
+
+  const handleImageLoad = (photoId, e) => {
+    const { naturalWidth, naturalHeight } = e.target;
+    if (naturalHeight > naturalWidth * 1.05) {
+      setDetectedPortraits((prev) => (prev[photoId] ? prev : { ...prev, [photoId]: true }));
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -167,37 +175,73 @@ export const Gallery = ({ categories }) => {
         ) : photos.length === 0 ? (
           <p className="text-neutral-500 py-20 text-center font-serif text-2xl">No frames in this category yet.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-12 auto-rows-[260px] sm:auto-rows-[300px] md:auto-rows-[280px] lg:auto-rows-[320px] gap-4">
-            {photos.map((p, i) => (
-              <Reveal
-                key={p.id}
-                delay={(i % 3) * 0.08}
-                className={`${SPANS[i % SPANS.length]} group relative overflow-hidden cursor-pointer bg-neutral-900 border border-white/5 rounded-sm`}
-              >
-                <button
-                  data-testid={`gallery-item-${i}`}
-                  onClick={() => setLightboxIndex(i)}
-                  className="absolute inset-0 w-full h-full text-left focus:outline-none"
+          <div className="grid grid-cols-1 md:grid-cols-12 auto-rows-[280px] sm:auto-rows-[300px] md:auto-rows-[290px] lg:auto-rows-[320px] grid-flow-dense gap-4">
+            {photos.map((p, i) => {
+              const isPortrait =
+                (p.height && p.width && p.height > p.width * 1.05) ||
+                Boolean(detectedPortraits[p.id]);
+
+              // Vertical frames get tall 2-row cards with subject-top framing
+              // Landscape frames follow an alternating editorial bento rhythm
+              const LANDSCAPE_SPANS = [
+                "md:col-span-8 md:row-span-2",
+                "md:col-span-4 md:row-span-1",
+                "md:col-span-4 md:row-span-1",
+                "md:col-span-4 md:row-span-1",
+                "md:col-span-6 md:row-span-1",
+                "md:col-span-6 md:row-span-1",
+                "md:col-span-7 md:row-span-2",
+                "md:col-span-5 md:row-span-1",
+                "md:col-span-5 md:row-span-1",
+                "md:col-span-8 md:row-span-1",
+              ];
+
+              const cardSpan = isPortrait
+                ? "row-span-2 md:col-span-4 md:row-span-2"
+                : LANDSCAPE_SPANS[i % LANDSCAPE_SPANS.length];
+
+              const objectPosition = p.thumbnail_align === "bottom"
+                ? "object-bottom"
+                : p.thumbnail_align === "center"
+                ? "object-center"
+                : p.thumbnail_align === "top"
+                ? "object-top"
+                : isPortrait
+                ? "object-[center_top] sm:object-[center_12%]"
+                : "object-center";
+
+              return (
+                <Reveal
+                  key={p.id}
+                  delay={(i % 3) * 0.08}
+                  className={`${cardSpan} group relative overflow-hidden cursor-pointer bg-neutral-900 border border-white/5 rounded-sm`}
                 >
-                  <img
-                    src={withWatermark(p.image_url)}
-                    alt={p.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover object-center opacity-95 sm:opacity-90 md:opacity-85 sm:grayscale-[10%] md:grayscale-[20%] transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-90 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute bottom-0 left-0 p-5 sm:p-6 text-left translate-y-0 opacity-100 md:translate-y-3 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500 w-full">
-                    <p className="font-mono-accent text-[10px] uppercase tracking-[0.2em] text-accent mb-1">
-                      {p.category}{p.location ? ` · ${p.location}` : ""}
-                    </p>
-                    <p className="font-serif text-xl sm:text-2xl text-white leading-tight truncate">{p.title}</p>
-                    {p.title_gu && (
-                      <p className="text-xs sm:text-sm text-neutral-300 mt-0.5 truncate" data-testid={`gallery-gu-${i}`}>{p.title_gu}</p>
-                    )}
-                  </div>
-                </button>
-              </Reveal>
-            ))}
+                  <button
+                    data-testid={`gallery-item-${i}`}
+                    onClick={() => setLightboxIndex(i)}
+                    className="absolute inset-0 w-full h-full text-left focus:outline-none"
+                  >
+                    <img
+                      src={withWatermark(p.image_url)}
+                      alt={p.title}
+                      loading="lazy"
+                      onLoad={(e) => handleImageLoad(p.id, e)}
+                      className={`w-full h-full object-cover ${objectPosition} opacity-95 sm:opacity-90 md:opacity-85 sm:grayscale-[10%] md:grayscale-[20%] transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100 group-hover:grayscale-0`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-90 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute bottom-0 left-0 p-5 sm:p-6 text-left translate-y-0 opacity-100 md:translate-y-3 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500 w-full">
+                      <p className="font-mono-accent text-[10px] uppercase tracking-[0.2em] text-accent mb-1">
+                        {p.category}{p.location ? ` · ${p.location}` : ""}
+                      </p>
+                      <p className="font-serif text-xl sm:text-2xl text-white leading-tight truncate">{p.title}</p>
+                      {p.title_gu && (
+                        <p className="text-xs sm:text-sm text-neutral-300 mt-0.5 truncate" data-testid={`gallery-gu-${i}`}>{p.title_gu}</p>
+                      )}
+                    </div>
+                  </button>
+                </Reveal>
+              );
+            })}
           </div>
         )}
       </div>
