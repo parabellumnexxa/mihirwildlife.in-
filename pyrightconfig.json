@@ -1,9 +1,0 @@
-{
-  "include": [
-    "backend"
-  ],
-  "extraPaths": [
-    "C:\\Python314\\Lib\\site-packages",
-    "backend"
-  ]
-}

@@ -1,0 +1,199 @@
+{
+  "photos": [
+    {
+      "id": "9f1929df-8178-4a68-a082-cd022c511234",
+      "title": "Crested Serpent Eagle",
+      "title_gu": "ચોટલીયો સાપમાર",
+      "category": "Raptors & Owl",
+      "location": "Gir National Park, Gujarat, India",
+      "collection": "Raptors & Owls",
+      "story": "A magnificent Crested Serpent Eagle keeping a watchful eye from its perch during the golden hour.",
+      "camera": "Canon EOS 7D Mark II",
+      "lens": "Sigma 150-600mm f/5-6.3 Sports",
+      "settings": "1/1600s · f/6.3 · ISO 800 · 600mm",
+      "image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793090521/portfolio/photos/egigpcktwqqdcpj2ujxu.jpg",
+      "public_id": "portfolio/photos/egigpcktwqqdcpj2ujxu",
+      "width": 1455,
+      "height": 970,
+      "featured": false,
+      "order": 1,
+      "created_at": "2026-10-27T08:42:37.648Z"
+    },
+    {
+      "id": "1675560e-9e34-4478-944c-2784299a7927",
+      "title": "The Young Buzzard's Flight",
+      "title_gu": "શ્વેતનેણ ટીસો",
+      "category": "Raptors & Owl",
+      "location": "• Desert National Park, Jaisalmer, Rajasthan, India",
+      "collection": "Raptors & Owls",
+      "story": "A juvenile White-eyed Buzzard showcasing its beautifully patterned wings as it takes off in the arid landscape of Desert National Park.",
+      "camera": "Canon EOS 7D Mark II",
+      "lens": "Canon EF 100-400mm",
+      "settings": "1/2500s · f/5.6 · ISO 400 · 400mm",
+      "image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793090744/portfolio/photos/uk9c1botlfkhftcq2ez7.jpg",
+      "public_id": "portfolio/photos/uk9c1botlfkhftcq2ez7",
+      "width": 1536,
+      "height": 1024,
+      "featured": false,
+      "order": 0,
+      "created_at": "2026-10-27T08:46:20.158Z"
+    },
+    {
+      "id": "382370fd-afcc-4d26-945b-231a72664a48",
+      "title": "The Tawny Eagle's Watch",
+      "title_gu": "દેશી જુમ્મસ",
+      "category": "Raptors & Owl",
+      "location": "Desert National Park, Jaisalmer, Rajasthan, India",
+      "collection": "Raptors & Owls",
+      "story": "A magnificent Tawny Eagle standing ground in the vast, open grasslands of Desert National Park.",
+      "camera": "Canon EOS 7D Mark II",
+      "lens": "Sigma 150-600mm f/5-6.3 Sports",
+      "settings": "1/2000s · f/7.1 · ISO 320 · 550mm",
+      "image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793090855/portfolio/photos/edcs2bzh6zuiw3eyhsyj.jpg",
+      "public_id": "portfolio/photos/edcs2bzh6zuiw3eyhsyj",
+      "width": 1536,
+      "height": 1024,
+      "featured": false,
+      "order": 2,
+      "created_at": "2026-10-27T08:48:10.691Z"
+    },
+    {
+      "id": "421f12c0-f54e-47fc-bda8-3d9811b501e6",
+      "title": "Black-winged Kite",
+      "title_gu": "કપાસી",
+      "category": "Raptors & Owl",
+      "location": "Junagadh Outskirts, Gujarat, India",
+      "collection": "Raptors & Owls",
+      "story": "A striking Black-winged Kite showcasing its vivid crimson eyes while resting on a branch along the scenic outskirts of Junagadh.",
+      "camera": "Canon EOS 7D Mark II",
+      "lens": "Sigma 150-600mm f/5-6.3 Sports",
+      "settings": "1/1250s · f/6.3 · ISO 640 · 600mm",
+      "image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793091255/portfolio/photos/themituqsdosxbmqtwed.jpg",
+      "public_id": "portfolio/photos/themituqsdosxbmqtwed",
+      "width": 848,
+      "height": 565,
+      "featured": false,
+      "order": 3,
+      "created_at": "2026-10-27T08:54:50.740Z"
+    },
+    {
+      "id": "ed38e9ef-39f4-481e-be5f-7daa5303f80a",
+      "title": "Shikra",
+      "title_gu": "શીકરો",
+      "category": "Raptors & Owl",
+      "location": "Gir National Park & Wildlife Sanctuary, Gujarat, India",
+      "collection": "Raptors & Owls",
+      "story": "An immature Shikra blending seamlessly into the dense branch canopy of the Gir Forest while eyeing its prey.",
+      "camera": "Canon EOS 7D Mark II",
+      "lens": "Sigma 150-600mm f/5-6.3 Sports",
+      "settings": "1/1000s · f/6.3 · ISO 800 · 450mm",
+      "image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793091832/portfolio/photos/thanj30vrrrsatcheac7.jpg",
+      "public_id": "portfolio/photos/thanj30vrrrsatcheac7",
+      "width": 1536,
+      "height": 1024,
+      "featured": false,
+      "order": 5,
+      "created_at": "2026-10-27T09:04:27.819Z"
+    },
+    {
+      "id": "7fafa822-aab8-49f3-9590-74879f5b0b6a",
+      "title": "Laggar Falcon",
+      "title_gu": "લગડ",
+      "category": "Raptors & Owl",
+      "location": "Desert National Park, Jaisalmer, Rajasthan, India",
+      "collection": "Raptors & Owls",
+      "story": " A powerful Laggar Falcon keeping a quiet, intense vigil across the desert floor.",
+      "camera": "Canon EOS 7D Mark II",
+      "lens": "Sigma 150-600mm f/5-6.3 Sports",
+      "settings": "1/1600s · f/6.3 · ISO 640 · 600mm",
+      "image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793094650/portfolio/photos/pdlqcrfq6tnmlw13sv89.jpg",
+      "public_id": "portfolio/photos/pdlqcrfq6tnmlw13sv89",
+      "width": 1054,
+      "height": 703,
+      "featured": false,
+      "order": 6,
+      "created_at": "2026-10-27T09:51:26.111Z"
+    }
+  ],
+  "site_settings": [
+    {
+      "id": "site",
+      "logo_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1792848408/portfolio/brand/p4l9zcyupbtlge9thbvv.png",
+      "logo_public_id": "portfolio/brand/p4l9zcyupbtlge9thbvv",
+      "hero_image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793089356/portfolio/brand/zbzkn3hwd1j05ihagzqv.jpg",
+      "hero_public_id": "lion_pride_9_de9akv",
+      "hero_images": [
+        "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793089356/portfolio/brand/zbzkn3hwd1j05ihagzqv.jpg",
+        "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793091832/portfolio/photos/thanj30vrrrsatcheac7.jpg",
+        "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793091255/portfolio/photos/themituqsdosxbmqtwed.jpg",
+        "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793094650/portfolio/photos/pdlqcrfq6tnmlw13sv89.jpg"
+      ],
+      "about_image_url": "https://res.cloudinary.com/uq0zgy3i/image/upload/v1793092340/portfolio/brand/wc1gmpvpldn2idxs3rr9.png",
+      "about_public_id": null,
+      "contact_email": "mihirwildlife@gmail.com",
+      "instagram": "https://www.instagram.com/mihirwildlife",
+      "blog_url": "https://medium.com/@mihirwildlife",
+      "show_blog": true,
+      "currency": "INR",
+      "print_options": [
+        {
+          "size": "A4 · 210×297mm",
+          "price": "2,500"
+        },
+        {
+          "size": "A3 · 297×420mm",
+          "price": "4,500"
+        },
+        {
+          "size": "A2 · 420×594mm",
+          "price": "7,500"
+        },
+        {
+          "size": "A1 · 594×841mm (Museum)",
+          "price": "12,000"
+        }
+      ],
+      "collections": {
+        "Raptors & Owls": {
+          "cover_public_id": "070A1006_ncv8gi",
+          "caption": "Eyes of the forest. The hunters that rule in open skies and its shadowed, tangled canopies."
+        }
+      },
+      "categories": [
+        "Flycatchers",
+        "Raptors & Owl",
+        "Forest Farmers",
+        "grassland & urban forest",
+        "waterbody"
+      ],
+      "photos_seeded": true,
+      "youtube": "https://www.youtube.com/@mihirwildlife",
+      "whatsapp": "https://wa.me/919426982878?text=Hello%20Mihir,%20I%20am%20interested%20in%20your%20wildlife%20photography.",
+      "facebook": "https://facebook.com/mihirwildlife",
+      "threads": "https://www.threads.com/@mihirwildlife",
+      "linkedin": "https://www.linkedin.com/in/mihirkumarranva/",
+      "x": "https://x.com/mihirwildlife",
+      "twitter": "https://x.com/mihirwildlife",
+      "hero_image_public_id": "portfolio/brand/zbzkn3hwd1j05ihagzqv",
+      "about_image_public_id": "portfolio/brand/wc1gmpvpldn2idxs3rr9"
+    }
+  ],
+  "blog_posts": [
+    {
+      "id": "waterbird-dynamics-junagadh-wetlands",
+      "slug": "waterbird-dynamics-junagadh-wetlands",
+      "title": "Waterbird Dynamics: Tracking Hunting Behaviours in Junagadh's Wetlands",
+      "category": "Conservation & Fieldwork",
+      "author": "Mihir Ranva",
+      "published_date": "October 24, 2026",
+      "excerpt": "Fieldwork requires patience before the frame. In this study, we break down how analytical tracking systems help map out the migratory movements of local species across the wetlands.",
+      "cover_image": "https://res.cloudinary.com/uq0zgy3i/image/upload/q_auto,f_auto,w_1600/lion_pride_13_q5bwgp.jpg",
+      "cover_caption": "Figure 1: Rare documentation of hunting sequences captured at Lal Dhori.",
+      "reading_time": "4 min read",
+      "content": "<p>Fieldwork requires patience before the frame. In this study, we break down how analytical tracking systems help map out the migratory movements of local species across the wetlands.</p>\n\n<img src=\"https://res.cloudinary.com/uq0zgy3i/image/upload/q_auto,f_auto,w_1600/lion_pride_13_q5bwgp.jpg\" alt=\"Indian Cormorants hunting bullfrogs\">\n<span class=\"img-caption\">Figure 1: Rare documentation of hunting sequences captured at Lal Dhori.</span>\n\n<h2>The Intersection of Systems and Field Biology</h2>\n<p>By treating photography as scientific evidence rather than simple spectacle, we feed crucial dataset observations straight to environmental networks like the Bombay Natural History Society.</p>\n\n<p>Avian species exhibit nuanced behavioral patterns during twilight hours that standard observation easily misses. By combining long-duration sensor data with precision telephoto observation, our Junagadh field surveys document feeding strategies and territorial disputes in unprecedented detail.</p>",
+      "created_at": "2026-10-24T12:00:00+00:00"
+    }
+  ],
+  "contact_messages": [],
+  "print_requests": []
+}
