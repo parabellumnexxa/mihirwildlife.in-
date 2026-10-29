@@ -1,78 +1,87 @@
 'use client';
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Reveal, RevealLinesInView } from "./Reveal";
 import { ORGS } from "@/lib/data";
 
 export const About = ({ aboutImage }) => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "12%"]);
+  const portraitSrc = aboutImage || "/images/mihir-portrait.jpg";
 
   return (
-    <section id="about" data-testid="about-section" className="relative z-10 py-24 md:py-32 bg-[#050505] scroll-mt-20">
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12 grid md:grid-cols-12 gap-10 md:gap-16 items-start">
-        {/* Image with clipped frame */}
-        <Reveal className="md:col-span-5 relative" testId="about-image-wrap">
-          <div ref={ref} className="relative overflow-hidden aspect-[4/5] border border-white/10">
-            <motion.img
-              style={{ y }}
-              src={aboutImage}
-              alt="Mihir Ranva"
-              className="w-full h-[115%] object-cover object-center"
-            />
-          </div>
-          <div 
-            className="absolute -bottom-5 -right-4 md:-right-6 px-6 py-4 backdrop-blur-md border border-[#C9A25E]/40 shadow-2xl text-white"
-            style={{ backgroundColor: 'rgba(201, 162, 94, 0.5)' }}
-          >
-            <p className="font-mono-accent text-xs uppercase tracking-[0.15em] text-neutral-100/90">Since</p>
-            <p className="font-serif text-4xl leading-none font-medium text-white">2009</p>
-          </div>
-        </Reveal>
+    <section
+      id="about"
+      data-testid="about-section"
+      className="w-full bg-[#050505] text-[#F5F5F5] px-5 py-16 sm:px-12 md:py-24 max-w-7xl mx-auto overflow-hidden scroll-mt-20"
+    >
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12 w-full">
+        {/* Optimized Portrait Container Frame */}
+        <div
+          data-testid="about-image-wrap"
+          className="relative w-full max-w-sm aspect-[3/4] rounded-xl overflow-hidden bg-zinc-900 border border-zinc-800/60 shadow-xl group shrink-0"
+        >
+          <img
+            src={portraitSrc}
+            alt="Mihir Ranva"
+            className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+          />
 
-        {/* Text */}
-        <div className="md:col-span-7 md:pl-6">
-          <p className="font-mono-accent text-xs uppercase tracking-[0.25em] text-accent mb-2">
-            About Mihir · Core Biography
-          </p>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-white leading-tight mb-5" data-testid="about-heading">
+          {/* Premium Integrated 'Since 2009' Badge Component Overlay */}
+          <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md border border-zinc-800/80 px-4 py-2.5 rounded-lg text-right shadow-2xl">
+            <span className="text-[9px] font-bold tracking-widest text-zinc-500 uppercase block mb-0.5">
+              Established
+            </span>
+            <span className="text-sm font-mono font-semibold text-emerald-400 tracking-wide">
+              SINCE 2009
+            </span>
+          </div>
+        </div>
+
+        {/* Biography Content Grid */}
+        <div className="flex-1 space-y-5 text-left w-full">
+          <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase block">
+            About Mihir • Core Biography
+          </span>
+
+          <h2
+            className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-white leading-tight"
+            data-testid="about-heading"
+          >
             Bridging Tech &amp; Conservation
           </h2>
 
-          <div>
-            <div className="space-y-4 text-neutral-300 text-base md:text-lg leading-relaxed max-w-2xl font-light text-justify">
-              <p>
-                Based in Junagadh, Gujarat, my journey began with a childhood passion for nature that evolved into a dedicated career documenting bird ecology, wildlife behaviours, and fragile ecosystems. I believe in capturing wildlife stories for conservation, not just documentation—creating impact-driven imagery that goes beyond aesthetics to highlight ecological importance and inspire biodiversity awareness.
-              </p>
-              <p>
-                Bridging the worlds of technology and nature, I leverage my analytical IT background to enhance modern digital field monitoring, data accuracy, and visual preservation.
-              </p>
-              <p>
-                Through certified workshop partnerships with Canon India and SBI RSETI, active civic training with Podar International School and Sakkarbaug Zoological Garden, and grassroots avian and wildlife rescue operations, my work combines scientific documentation with community stewardship.
-              </p>
-            </div>
+          <div className="space-y-4 text-sm sm:text-base leading-relaxed text-zinc-300 font-light text-left">
+            <p>
+              Based in Junagadh, Gujarat, my journey began with a childhood passion for nature that evolved into a dedicated career documenting bird ecology, wildlife behaviours, and fragile ecosystems. I believe in capturing wildlife stories for conservation, not just documentation—creating impact-driven imagery that goes beyond aesthetics to highlight ecological importance and inspire biodiversity awareness.
+            </p>
+            <p>
+              Bridging the worlds of technology and nature, I leverage my analytical IT background to enhance modern digital field monitoring, data accuracy, and visual preservation.
+            </p>
+            <p>
+              Through certified workshop partnerships with Canon India and SBI RSETI, active civic training with Podar International School and Sakkarbaug Zoological Garden, and grassroots avian and wildlife rescue operations, my work combines scientific documentation with community stewardship.
+            </p>
           </div>
 
-          <Reveal delay={0.2} className="mt-10">
-            <p className="font-mono-accent text-xs uppercase tracking-[0.2em] text-neutral-500 mb-4">
-              Member & Affiliations
+          {/* Member & Affiliations */}
+          <div className="pt-3">
+            <p className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase mb-3">
+              Member &amp; Affiliations
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-2.5">
               {ORGS.map((o) => (
-                <span key={o} className="px-4 py-2 border border-white/15 text-sm text-neutral-300">
+                <span
+                  key={o}
+                  className="px-3.5 py-1.5 rounded-lg bg-zinc-900/60 border border-zinc-800/80 text-xs text-zinc-300 hover:border-zinc-700 transition-colors"
+                >
                   {o}
                 </span>
               ))}
             </div>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.3} className="mt-10 border-l-2 border-accent pl-6">
-            <p className="font-serif italic text-2xl md:text-3xl text-white leading-snug">
+          {/* Editorial Quote */}
+          <div className="pt-3 border-l-2 border-emerald-400 pl-4 sm:pl-5">
+            <p className="font-serif italic text-lg sm:text-xl text-white leading-snug">
               “Capturing Wildlife Stories for Conservation, Not Just Documentation.”
             </p>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

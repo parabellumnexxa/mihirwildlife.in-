@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from "react";
-import { Reveal, RevealLinesInView } from "./Reveal";
 
 const principles = [
   {
@@ -35,10 +34,14 @@ export const Manifesto = () => {
   const [activeBg, setActiveBg] = useState(null);
 
   return (
-    <section id="ethos" data-testid="manifesto-section" className="relative z-10 py-20 md:py-28 bg-[#0A0A0A] border-y border-white/10 overflow-hidden">
+    <section
+      id="ethos"
+      data-testid="manifesto-section"
+      className="relative z-10 w-full bg-[#050505] text-[#F5F5F5] border-y border-zinc-800/60 overflow-hidden scroll-mt-20 select-none"
+    >
       <div id="manifesto" className="sr-only" />
 
-      {/* Fixed Background Image Container for Hover Reveals */}
+      {/* Dynamic Background Image Layers for Hover Reveals */}
       {principles.map((p) => (
         <div
           key={p.id}
@@ -49,75 +52,73 @@ export const Manifesto = () => {
         />
       ))}
 
-      {/* Subtle overlay to keep text completely readable */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-transparent to-[#0A0A0A] pointer-events-none" />
+      {/* Subtle overlay to preserve high readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505] pointer-events-none" />
 
-      <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12">
+      <div className="relative z-10 px-5 py-16 sm:px-12 md:py-24 max-w-7xl mx-auto">
         {/* Header Block */}
-        <div className="max-w-2xl mb-16">
-          <p className="font-mono-accent text-xs uppercase tracking-[0.25em] text-emerald-400 mb-2">
-            The Ethos · Core Values
-          </p>
-          <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl tracking-tight text-white leading-tight">
-            <RevealLinesInView lines={["A closer look", "at nature"]} testId="manifesto-heading" />
+        <div className="max-w-2xl mb-12 sm:mb-16 text-left">
+          <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase block mb-2">
+            The Ethos • Core Values
+          </span>
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white leading-tight"
+            data-testid="manifesto-heading"
+          >
+            A closer look at nature
           </h2>
         </div>
 
-        {/* Principles Interactive Grid */}
-        <div className="grid md:grid-cols-2 gap-x-16 gap-y-16">
-          {principles.map((p, i) => (
-            <Reveal
+        {/* The Ethos Grid & Values Section (Clean separate-column flex layout) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10 sm:gap-y-16">
+          {principles.map((p) => (
+            <div
               key={p.id}
-              delay={(i % 2) * 0.1}
-              className="flex gap-6 md:gap-10 group cursor-default transition-all duration-300"
+              onMouseEnter={() => setActiveBg(p.id)}
+              onMouseLeave={() => setActiveBg(null)}
+              className="flex items-start space-x-5 group cursor-default transition-all duration-300"
             >
-              <div
-                onMouseEnter={() => setActiveBg(p.id)}
-                onMouseLeave={() => setActiveBg(null)}
-                className="flex gap-6 md:gap-10 w-full"
-              >
-                {/* Massive Minimalist Number */}
-                <span className="font-serif text-6xl md:text-8xl leading-none text-white/10 group-hover:text-emerald-500/40 transition-colors duration-500 shrink-0 select-none">
-                  {p.id}
-                </span>
-
-                {/* Text Block Container */}
-                <div className="pt-2 border-t border-white/10 flex-1 space-y-3">
-                  <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-white group-hover:text-emerald-400 transition-colors duration-300">
-                    {p.title}
-                  </h3>
-                  <p className="text-neutral-400 leading-relaxed text-sm sm:text-base md:text-lg group-hover:text-zinc-200 transition-colors duration-300">
-                    {p.hasBnhsLink ? (
-                      <>
-                        Observations feed research — including publications with the{" "}
-                        <a
-                          href="https://www.bnhs.org"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-emerald-400 border-b border-emerald-500/30 hover:border-emerald-400 transition-colors"
-                        >
-                          Bombay Natural History Society
-                        </a>{" "}
-                        — because a photograph can also be evidence for science.
-                      </>
-                    ) : (
-                      p.text
-                    )}
-                  </p>
-                </div>
+              {/* Massive structural layout number */}
+              <div className="text-3xl sm:text-4xl font-light tracking-tight text-zinc-700 group-hover:text-emerald-500/60 transition-colors duration-300 select-none pt-0.5 w-9 shrink-0 font-mono">
+                {p.id}
               </div>
-            </Reveal>
+
+              {/* Text copy section */}
+              <div className="space-y-2 flex-1 text-left">
+                <h3 className="text-base sm:text-lg font-medium tracking-wide text-white group-hover:text-emerald-400 transition-colors duration-300">
+                  {p.title}
+                </h3>
+                <p className="text-xs sm:text-sm leading-relaxed text-zinc-400 font-light group-hover:text-zinc-200 transition-colors duration-300">
+                  {p.hasBnhsLink ? (
+                    <>
+                      Observations feed research — including publications with the{" "}
+                      <a
+                        href="https://www.bnhs.org"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-emerald-400 border-b border-emerald-500/30 hover:border-emerald-400 transition-colors"
+                      >
+                        Bombay Natural History Society
+                      </a>{" "}
+                      — because a photograph can also be evidence for science.
+                    </>
+                  ) : (
+                    p.text
+                  )}
+                </p>
+              </div>
+            </div>
           ))}
         </div>
 
-        {/* Minimalist Call to Action Section */}
-        <div className="text-center pt-20">
+        {/* Minimalist Action Interface */}
+        <div className="text-center pt-16 sm:pt-20">
           <div className="h-[1px] bg-zinc-800/80 w-24 mx-auto mb-8" />
           <a
             href="#portfolio"
-            className="inline-block px-6 py-3 border border-zinc-800 rounded-lg text-xs font-semibold tracking-widest uppercase text-zinc-400 hover:text-white hover:bg-zinc-950 hover:border-zinc-700 transition-all duration-300"
+            className="inline-block px-6 py-3 border border-zinc-800 bg-zinc-950/40 backdrop-blur-sm rounded-lg text-xs font-semibold tracking-widest uppercase text-zinc-300 hover:text-white hover:bg-zinc-900 hover:border-zinc-700 transition-all duration-300 shadow-xl cursor-pointer"
           >
-            Explore the Galleries
+            Explore the Field Archive
           </a>
         </div>
       </div>

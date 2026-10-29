@@ -1,51 +1,77 @@
 'use client';
 
 import { WORKS } from "@/lib/data";
-import { Reveal, RevealLinesInView } from "./Reveal";
-import { ArrowUpRight } from "lucide-react";
 
 export const Works = () => (
-  <section id="works" data-testid="works-section" className="relative z-10 py-16 md:py-24 bg-[#050505] scroll-mt-20">
-    <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-      <div className="max-w-2xl mb-10">
-        <p className="font-mono-accent text-xs uppercase tracking-[0.25em] text-accent mb-2">
+  <section
+    id="works"
+    data-testid="works-section"
+    className="w-full bg-[#050505] text-[#F5F5F5] overflow-hidden scroll-mt-20"
+  >
+    <div className="px-5 py-16 sm:px-12 md:py-24 max-w-7xl mx-auto">
+      {/* Header Block */}
+      <div className="max-w-2xl mb-10 sm:mb-14 text-left">
+        <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase block mb-2">
           Published Work
-        </p>
-        <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl tracking-tight text-white leading-tight">
-          <RevealLinesInView lines={["Books &", "Publications"]} testId="works-heading" />
+        </span>
+        <h2
+          className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white leading-tight"
+          data-testid="works-heading"
+        >
+          Books &amp; Publications
         </h2>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {WORKS.map((w, i) => {
-          const Wrapper = w.link ? "a" : "div";
-          return (
-            <Reveal key={w.title} delay={i * 0.1}>
-              <Wrapper
-                {...(w.link ? { href: w.link, target: "_blank", rel: "noopener noreferrer" } : {})}
-                data-testid={`work-${i}`}
-                className="group block h-full border border-white/10 p-8 md:p-12 hover:border-accent/50 transition-colors duration-500 bg-[#0A0A0A]"
-              >
-                <div className="flex items-center justify-between mb-8">
-                  <span className="font-mono-accent text-xs uppercase tracking-[0.2em] text-accent">
-                    {w.type} · {w.year}
-                  </span>
-                  {w.link && (
-                    <ArrowUpRight
-                      size={22}
-                      className="text-neutral-500 group-hover:text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-500"
-                    />
-                  )}
-                </div>
-                <h3 className="font-serif text-3xl md:text-4xl text-white leading-tight mb-5">{w.title}</h3>
-                <p className="text-neutral-400 leading-relaxed mb-8">{w.desc}</p>
-                <span className="text-sm uppercase tracking-[0.15em] text-neutral-300 hover-underline">
-                  {w.linkLabel}
+      {/* Published Work Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        {WORKS.map((w, i) => (
+          <div
+            key={w.title}
+            data-testid={`work-${i}`}
+            className="bg-zinc-900/30 border border-zinc-800/60 rounded-xl p-5 sm:p-7 flex flex-col justify-between h-full space-y-6 text-left hover:border-zinc-700 transition-all duration-300 group"
+          >
+            <div className="space-y-3">
+              <div className="flex justify-between items-center text-[10px] font-mono tracking-widest text-zinc-500 uppercase">
+                <span>{w.type}</span>
+                <span>{w.year}</span>
+              </div>
+              <h3 className="text-lg sm:text-xl font-medium text-white tracking-wide group-hover:text-emerald-400 transition-colors">
+                {w.title}
+              </h3>
+              <p className="text-xs sm:text-sm leading-relaxed text-zinc-400 font-light">
+                {w.desc}
+              </p>
+            </div>
+
+            {/* Clean, aligned action interface link button */}
+            <div className="pt-2">
+              {w.link ? (
+                <a
+                  href={w.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 text-[11px] font-semibold tracking-widest text-emerald-400 uppercase border-b border-emerald-500/20 hover:border-emerald-400 pb-1 transition-all duration-300 cursor-pointer"
+                >
+                  <span>{w.linkLabel || "View on Amazon"}</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2.5"
+                    stroke="currentColor"
+                    className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+                  </svg>
+                </a>
+              ) : (
+                <span className="inline-flex items-center space-x-2 text-[11px] font-semibold tracking-widest text-zinc-500 uppercase border-b border-zinc-800 pb-1">
+                  <span>{w.linkLabel || "Archived Research"}</span>
                 </span>
-              </Wrapper>
-            </Reveal>
-          );
-        })}
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>

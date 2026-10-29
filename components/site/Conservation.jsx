@@ -8,11 +8,11 @@ export const Conservation = () => {
     <section
       id="initiatives"
       data-testid="conservation-section"
-      className="relative z-10 py-16 md:py-24 bg-[#050505] border-t border-white/10 scroll-mt-20"
+      className="relative z-10 w-full bg-[#050505] text-[#F5F5F5] border-t border-zinc-800/60 overflow-hidden scroll-mt-20"
     >
       <div id="conservation" className="sr-only" />
       <div id="workshops" className="sr-only" />
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+      <div className="px-5 py-16 sm:px-12 md:py-24 max-w-7xl mx-auto">
         {/* Section Heading */}
         <div className="max-w-3xl mb-10 md:mb-12">
           <p className="font-mono-accent text-xs uppercase tracking-[0.25em] text-accent mb-2">

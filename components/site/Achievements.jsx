@@ -1,32 +1,44 @@
 'use client';
 
 import { ACHIEVEMENTS } from "@/lib/data";
-import { Reveal, RevealLinesInView } from "./Reveal";
 
 export const Achievements = () => (
-  <section id="achievements" data-testid="achievements-section" className="relative z-10 py-16 md:py-24 bg-[#0A0A0A] border-y border-white/10">
-    <div className="max-w-[1600px] mx-auto px-6 md:px-12">
-      <div className="max-w-2xl mb-10">
-        <p className="font-mono-accent text-xs uppercase tracking-[0.25em] text-accent mb-2">
-          The Journey · 2011 — 2026
-        </p>
-        <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl tracking-tight text-white leading-tight">
-          <RevealLinesInView lines={["Milestones"]} testId="achievements-heading" />
+  <section
+    id="achievements"
+    data-testid="achievements-section"
+    className="w-full bg-[#050505] text-[#F5F5F5] border-y border-zinc-800/60 overflow-hidden scroll-mt-20"
+  >
+    <div className="px-5 py-16 sm:px-12 md:py-24 max-w-7xl mx-auto">
+      {/* Header Block */}
+      <div className="max-w-2xl mb-12 sm:mb-16 text-left">
+        <span className="text-[10px] font-bold tracking-widest text-emerald-400 uppercase block mb-2">
+          The Journey • 2011 — 2026
+        </span>
+        <h2
+          className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white leading-tight"
+          data-testid="achievements-heading"
+        >
+          Milestones
         </h2>
       </div>
 
-      <div className="border-l border-white/15 ml-2 md:ml-3">
-        {ACHIEVEMENTS.map((a, i) => (
-          <Reveal key={a.year} delay={(i % 2) * 0.05} className="relative pl-8 md:pl-14 pb-12 last:pb-0 group">
-            <span className="absolute left-0 top-2 -translate-x-1/2 w-3 h-3 rounded-full bg-neutral-600 group-hover:bg-accent transition-colors duration-500" />
-            <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
-              <span className="font-mono-accent text-accent text-sm w-16 shrink-0">{a.year}</span>
-              <div>
-                <h3 className="font-serif text-2xl md:text-3xl text-white mb-1">{a.title}</h3>
-                <p className="text-neutral-400 leading-relaxed max-w-2xl">{a.desc}</p>
-              </div>
-            </div>
-          </Reveal>
+      {/* The Milestones & Timeline Section (Clean offset to eliminate track collision) */}
+      <div className="max-w-2xl relative border-l border-zinc-800/80 ml-2 sm:ml-4 space-y-10 py-4">
+        {ACHIEVEMENTS.map((a) => (
+          <div key={a.year} className="relative pl-8 text-left group">
+            {/* Dynamic dot node indicator */}
+            <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-zinc-800 group-hover:bg-emerald-400 ring-4 ring-[#050505] transition-colors duration-300" />
+
+            <span className="text-[11px] font-mono tracking-widest text-zinc-500 group-hover:text-emerald-400/80 transition-colors block mb-1">
+              {a.year}
+            </span>
+            <h4 className="text-base sm:text-lg font-medium text-white group-hover:text-emerald-400 transition-colors duration-300">
+              {a.title}
+            </h4>
+            <p className="text-xs sm:text-sm leading-relaxed text-zinc-400 font-light mt-1 max-w-xl">
+              {a.desc}
+            </p>
+          </div>
         ))}
       </div>
     </div>
