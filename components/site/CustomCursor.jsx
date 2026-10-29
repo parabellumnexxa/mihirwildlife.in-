@@ -6,6 +6,7 @@ export default function RealFlyingCursor() {
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   // Use refs to avoid continuous component re-renders for core rendering math
   const mouseRef = useRef({ x: -100, y: -100 });
@@ -13,19 +14,51 @@ export default function RealFlyingCursor() {
   const timeRef = useRef(0);
 
   useEffect(() => {
-    // Only activate custom cursor on fine pointer devices (mouse / trackpad)
     if (typeof window === 'undefined') return;
-    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-    if (isTouchDevice) return;
 
-    // Do not run or hide cursor in admin area
+    // Check if the screen is mobile or uses a touch display
+    const checkDevice = () => {
+      const isTouchDevice =
+        'ontouchstart' in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia('(pointer: coarse)').matches;
+      const isSmallScreen = window.innerWidth < 768; // Target mobile breakpoint
+      const isTouchOrMobile = isTouchDevice || isSmallScreen;
+      setIsMobile(isTouchOrMobile);
+
+      if (isTouchOrMobile) {
+        document.body.classList.remove('has-custom-cursor');
+        document.body.style.cursor = 'default';
+      }
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+
+    // Do not run in admin studio
     if (window.location.pathname.startsWith('/admin')) {
       document.body.classList.remove('has-custom-cursor');
       document.body.style.cursor = '';
-      return;
+      return () => {
+        window.removeEventListener('resize', checkDevice);
+      };
     }
 
-    // Mark body as having custom cursor active
+    const isTouchDevice =
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia('(pointer: coarse)').matches;
+    const isSmallScreen = window.innerWidth < 768;
+
+    if (isTouchDevice || isSmallScreen) {
+      document.body.classList.remove('has-custom-cursor');
+      document.body.style.cursor = 'default';
+      return () => {
+        window.removeEventListener('resize', checkDevice);
+      };
+    }
+
+    // Mark body as having custom cursor active on desktop
     document.body.classList.add('has-custom-cursor');
 
     const handleMouseMove = (e) => {
@@ -82,6 +115,7 @@ export default function RealFlyingCursor() {
     animationFrameId = requestAnimationFrame(animateFlight);
 
     return () => {
+      window.removeEventListener('resize', checkDevice);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
       document.removeEventListener('mouseleave', handleMouseLeave);
@@ -91,7 +125,8 @@ export default function RealFlyingCursor() {
     };
   }, []);
 
-  if (!isVisible) return null;
+  // If it is a mobile or tablet viewport, render absolutely nothing!
+  if (isMobile || !isVisible) return null;
 
   return (
     <>

@@ -270,14 +270,22 @@ img {
   50% { transform: rotate(45deg) scaleY(0.4); }
 }
 
-/* Custom flying cursor hiding rules: scoped strictly to public portfolio pages with active custom cursor */
-@media (pointer: fine) {
+/* Custom flying cursor hiding rules: scoped strictly to public desktop portfolio with active custom cursor */
+@media (min-width: 768px) and (pointer: fine) {
   body.has-custom-cursor, 
   body.has-custom-cursor a, 
   body.has-custom-cursor button, 
   body.has-custom-cursor [role="button"], 
   body.has-custom-cursor .cursor-pointer {
     cursor: none !important;
+  }
+}
+
+/* Ensure mobile devices behave normally with finger taps */
+@media (max-width: 767px) {
+  body, a, button, [role="button"], .cursor-pointer {
+    cursor: auto !important;
+    -webkit-tap-highlight-color: transparent; /* Cleans up ugly blue selection blocks on taps */
   }
 }
 

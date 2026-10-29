@@ -87,27 +87,27 @@ export const Hero = ({ heroImage, heroImages = [] }) => {
             <img
               src={images[currentIndex]}
               alt={`Wildlife hero slide ${currentIndex + 1}`}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center md:object-right"
               loading={currentIndex === 0 ? "eager" : "lazy"}
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Cinematic Vignette & Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/30 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-transparent pointer-events-none" />
+        {/* Dark Cinematic Gradient Overlay: Guarantees 100% typography readability on mobile, asymmetric fade on desktop */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/95 md:bg-gradient-to-r md:from-black/85 md:via-black/50 md:to-transparent z-0 pointer-events-none" />
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30 pointer-events-none" />
       </motion.div>
 
       {/* Hero Content Overlay */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 max-w-[1600px] mx-auto w-full px-6 md:px-12 pb-20 md:pb-28"
+        className="relative z-10 max-w-[1600px] mx-auto w-full px-6 md:px-16 pb-16 sm:pb-20 md:pb-28"
       >
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          className="font-mono-accent text-xs md:text-sm uppercase tracking-[0.3em] text-accent mb-6 font-normal"
+          className="font-mono-accent text-[10px] md:text-xs uppercase tracking-[0.25em] text-accent mb-4 md:mb-6 font-bold"
         >
           IT Professional · Wildlife Photographer · Conservationist
         </motion.h2>
@@ -140,7 +140,7 @@ export const Hero = ({ heroImage, heroImages = [] }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 1 }}
-            className="max-w-2xl text-base md:text-lg text-neutral-300 leading-relaxed font-light"
+            className="max-w-2xl text-sm sm:text-base md:text-lg text-zinc-300 leading-relaxed font-light"
           >
             Bringing technical precision to the art of visual storytelling. By combining advanced digital expertise with a lifelong passion for field biology, I capture compelling wildlife narratives that drive active conservation. My work serves as a precise digital and visual record of avian life, behaviour, and the intricate ecosystems that sustain them.
           </motion.p>
@@ -152,10 +152,10 @@ export const Hero = ({ heroImage, heroImages = [] }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.1, duration: 1 }}
-            className="group flex items-center gap-3 text-sm uppercase tracking-[0.2em] text-white cursor-pointer"
+            className="group flex items-center gap-3 text-xs sm:text-sm uppercase tracking-[0.2em] text-white cursor-pointer"
           >
             <span className="hover-underline">Enter the field</span>
-            <span className="w-11 h-11 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
+            <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-accent group-hover:border-accent transition-all duration-500">
               <ArrowDown size={16} className="group-hover:text-black transition-colors" />
             </span>
           </motion.a>
