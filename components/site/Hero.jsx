@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import NextImage from "next/image";
 import { ArrowDown } from "lucide-react";
 
 const DEFAULT_HERO_IMAGES = [
@@ -50,9 +50,11 @@ export const Hero = ({ heroImage, heroImages = [] }) => {
   // Preload next image for instant, smooth crossfading
   useEffect(() => {
     if (images.length <= 1) return;
-    const nextImg = new Image();
-    const nextIdx = (currentIndex + 1) % images.length;
-    nextImg.src = images[nextIdx];
+    if (typeof window !== "undefined") {
+      const nextImg = new window.Image();
+      const nextIdx = (currentIndex + 1) % images.length;
+      nextImg.src = images[nextIdx];
+    }
   }, [currentIndex, images]);
 
   const scrollToPortfolio = (e) => {
@@ -85,7 +87,7 @@ export const Hero = ({ heroImage, heroImages = [] }) => {
             transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
           >
-            <Image
+            <NextImage
               src={images[currentIndex]}
               alt={`Wildlife hero slide ${currentIndex + 1}`}
               fill
