@@ -167,6 +167,7 @@ export const Gallery = ({ categories }) => {
   return (
     <section id="portfolio" data-testid="gallery-section" className="relative z-10 py-24 md:py-32 bg-[#050505] scroll-mt-20">
       <div id="gallery" className="sr-only" />
+      <div id="gallery-start" className="sr-only" />
       <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
           <div>

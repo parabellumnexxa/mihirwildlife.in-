@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { ArrowDown } from "lucide-react";
 
 const DEFAULT_HERO_IMAGES = [
@@ -84,11 +85,13 @@ export const Hero = ({ heroImage, heroImages = [] }) => {
             transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
           >
-            <img
+            <Image
               src={images[currentIndex]}
               alt={`Wildlife hero slide ${currentIndex + 1}`}
-              className="w-full h-full object-cover object-center md:object-right"
-              loading={currentIndex === 0 ? "eager" : "lazy"}
+              fill
+              priority={currentIndex === 0}
+              sizes="100vw"
+              className="object-cover object-center md:object-right pointer-events-none"
             />
           </motion.div>
         </AnimatePresence>
