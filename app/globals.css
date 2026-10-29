@@ -258,3 +258,46 @@ img {
 .blog-content li {
     margin-bottom: 0.5rem;
 }
+
+/* High-frequency realistic insect wing flutter */
+@keyframes wingLeft {
+  0%, 100% { transform: rotate(15deg) scaleY(1); }
+  50% { transform: rotate(-45deg) scaleY(0.4); }
+}
+
+@keyframes wingRight {
+  0%, 100% { transform: rotate(-15deg) scaleY(1); }
+  50% { transform: rotate(45deg) scaleY(0.4); }
+}
+
+/* Custom flying cursor hiding rules: scoped strictly to public portfolio pages with active custom cursor */
+@media (pointer: fine) {
+  body.has-custom-cursor, 
+  body.has-custom-cursor a, 
+  body.has-custom-cursor button, 
+  body.has-custom-cursor [role="button"], 
+  body.has-custom-cursor .cursor-pointer {
+    cursor: none !important;
+  }
+}
+
+/* Explicit cursor restoration for the admin studio dashboard */
+[data-testid="admin-dashboard"],
+[data-testid="admin-dashboard"] *,
+body:has([data-testid="admin-dashboard"]),
+body:has([data-testid="admin-dashboard"]) * {
+  cursor: auto !important;
+}
+
+[data-testid="admin-dashboard"] a,
+[data-testid="admin-dashboard"] button,
+[data-testid="admin-dashboard"] [role="button"],
+[data-testid="admin-dashboard"] select,
+[data-testid="admin-dashboard"] .cursor-pointer {
+  cursor: pointer !important;
+}
+
+[data-testid="admin-dashboard"] input,
+[data-testid="admin-dashboard"] textarea {
+  cursor: text !important;
+}

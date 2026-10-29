@@ -13,6 +13,7 @@ import { Works } from "@/components/site/Works";
 import { EditorialMarquee } from "@/components/site/EditorialMarquee";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
+import CustomCursor from "@/components/site/CustomCursor";
 
 export default function HomeClient({ site }) {
   useLenis();
@@ -29,6 +30,7 @@ export default function HomeClient({ site }) {
 
   return (
     <div className="grain bg-[#050505] min-h-screen" data-testid="home-page">
+      <CustomCursor />
       <Nav
         logoUrl={siteData.logo_url}
         blogUrl={siteData.blog_url}

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import exifr from "exifr";
 import {
   adminLogin, getPhotos, createPhoto, updatePhoto, deletePhoto, reorderPhotos,
-  getSite, updateSite, getMessages, deleteContactMessage, getPrintRequests, updatePrintRequest, deletePrintRequest, uploadToCloudinary,
+  getSite, updateSite, renameCategory, getMessages, deleteContactMessage, getPrintRequests, updatePrintRequest, deletePrintRequest, uploadToCloudinary,
   getBlogPosts, getBlogPost, createBlogPost, updateBlogPost, deleteBlogPost,
   importFromCloudinary,
 } from "@/lib/api";
@@ -245,6 +245,8 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
   const [showSeriesManage, setShowSeriesManage] = useState(false);
   const [newSeriesName, setNewSeriesName] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [renameCat, setRenameCat] = useState(null); // { oldName: "", newName: "", count: 0 }
+  const [renamingCatLoading, setRenamingCatLoading] = useState(false);
   const fileRef = useRef();
   const editFileRef = useRef();
 
@@ -339,6 +341,45 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
       setDeleteConfirm(null);
     } catch {
       toast.error("Failed to remove category.");
+    }
+  };
+
+  const handleRenameCategory = async () => {
+    if (!renameCat) return;
+    const oldName = renameCat.oldName;
+    const newName = (renameCat.newName || "").trim();
+    if (!newName) {
+      toast.error("Please enter a category name.");
+      return;
+    }
+    if (oldName === newName) {
+      setRenameCat(null);
+      return;
+    }
+    if (categories.some((c) => c.toLowerCase() === newName.toLowerCase() && c.toLowerCase() !== oldName.toLowerCase())) {
+      toast.error(`Category "${newName}" already exists.`);
+      return;
+    }
+    setRenamingCatLoading(true);
+    try {
+      const res = await renameCategory(oldName, newName);
+      if (res.site) {
+        setSite(res.site);
+        propSetSite?.(res.site);
+      }
+      if (form.category === oldName) {
+        setForm((f) => ({ ...f, category: newName }));
+      }
+      if (editing && editing.category === oldName) {
+        setEditing((ed) => ({ ...ed, category: newName }));
+      }
+      load();
+      toast.success(`Category "${oldName}" renamed to "${newName}" (${res.updatedPhotosCount || 0} frames updated).`);
+      setRenameCat(null);
+    } catch (err) {
+      toast.error(err.message || "Failed to rename category.");
+    } finally {
+      setRenamingCatLoading(false);
     }
   };
 
@@ -595,7 +636,7 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
                 onClick={() => setShowCatManage((v) => !v)}
                 className="text-[10px] text-accent hover:text-gold-hover uppercase font-mono-accent tracking-wider transition-colors"
               >
-                {showCatManage ? "Close" : "+ Add / Remove Option"}
+                {showCatManage ? "Close" : "+ Add / Manage Categories"}
               </button>
             </div>
             <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
@@ -609,11 +650,11 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
               </SelectContent>
             </Select>
 
-            {/* In-place Category Add / Remove drawer */}
+            {/* In-place Category Add / Rename / Remove drawer */}
             {showCatManage && (
               <div className="mt-2 p-3 bg-neutral-950 border border-accent/30 space-y-2.5">
                 <p className="text-[10px] text-accent uppercase tracking-wider font-mono-accent">
-                  Add or Remove Categories
+                  Add, Rename or Remove Categories
                 </p>
                 <div className="flex gap-2">
                   <Input
@@ -639,23 +680,35 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-1.5 pt-1">
-                  {categories.map((c) => (
-                    <span
-                      key={c}
-                      className="inline-flex items-center gap-1.5 text-[11px] bg-white/5 border border-white/15 px-2 py-0.5 text-neutral-300"
-                    >
-                      <span>{c}</span>
-                      <button
-                        type="button"
-                        data-testid={`remove-category-${c.toLowerCase()}`}
-                        onClick={() => promptRemoveCategory(c)}
-                        title={`Remove category "${c}"`}
-                        className="text-neutral-400 hover:text-red-400 transition-colors"
+                  {categories.map((c) => {
+                    const count = photos.filter((p) => p.category === c).length;
+                    return (
+                      <span
+                        key={c}
+                        className="inline-flex items-center gap-1.5 text-[11px] bg-white/5 border border-white/15 px-2 py-0.5 text-neutral-300"
                       >
-                        <X size={11} />
-                      </button>
-                    </span>
-                  ))}
+                        <span>{c}</span>
+                        <button
+                          type="button"
+                          data-testid={`rename-category-${c.toLowerCase()}`}
+                          onClick={() => setRenameCat({ oldName: c, newName: c, count })}
+                          title={`Rename category "${c}"`}
+                          className="text-neutral-400 hover:text-accent transition-colors ml-0.5"
+                        >
+                          <Pencil size={11} />
+                        </button>
+                        <button
+                          type="button"
+                          data-testid={`remove-category-${c.toLowerCase()}`}
+                          onClick={() => promptRemoveCategory(c)}
+                          title={`Remove category "${c}"`}
+                          className="text-neutral-400 hover:text-red-400 transition-colors"
+                        >
+                          <X size={11} />
+                        </button>
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -970,7 +1023,22 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
             <div className="absolute top-2 left-2 z-10 bg-black/70 p-1.5 text-neutral-300 opacity-0 group-hover:opacity-100 transition-opacity">
               <GripVertical size={16} />
             </div>
-            <img src={p.image_url} alt={p.title} className="w-full h-40 object-cover pointer-events-none" />
+            <img
+              src={p.image_url}
+              alt={p.title}
+              style={{
+                objectPosition: p.thumbnail_align === "bottom"
+                  ? "center bottom"
+                  : p.thumbnail_align === "center"
+                  ? "center center"
+                  : p.thumbnail_align === "top"
+                  ? "center 10%"
+                  : p.thumbnail_align === "face"
+                  ? "center 15%"
+                  : "center 18%",
+              }}
+              className="w-full h-40 object-cover pointer-events-none"
+            />
             <div className="p-3">
               <p className="text-white text-sm truncate">{p.title}</p>
               <p className="font-mono-accent text-[10px] uppercase tracking-wider text-accent">{p.category}{p.collection ? ` · ${p.collection}` : " · No series"}</p>
@@ -1173,8 +1241,9 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {[
-                    { id: "auto", label: "✨ Auto (Head / Subject)" },
-                    { id: "top", label: "Top (Head / Eyes)" },
+                    { id: "auto", label: "✨ Auto (Head & Face Focus)" },
+                    { id: "face", label: "👁️ Face / Eyes (Top 15%)" },
+                    { id: "top", label: "Top (Head / Crown)" },
                     { id: "center", label: "Center" },
                     { id: "bottom", label: "Bottom / Perch" },
                   ].map((f) => (
@@ -1384,6 +1453,74 @@ function PhotosTab({ site: propSite, setSite: propSetSite, prefilledSeries, clea
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Rename Category Dialog */}
+      <Dialog open={Boolean(renameCat)} onOpenChange={(open) => !open && setRenameCat(null)}>
+        <DialogContent className="bg-[#0A0A0A] border border-white/20 text-white rounded-none max-w-md p-6">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-2xl text-white">Rename Category</DialogTitle>
+          </DialogHeader>
+          {renameCat && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleRenameCategory();
+              }}
+              className="space-y-4 mt-2"
+            >
+              <div>
+                <label className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono-accent block mb-1.5">
+                  Current Name
+                </label>
+                <div className="font-mono-accent text-xs uppercase tracking-wider text-accent bg-white/5 border border-white/10 px-3 py-2">
+                  {renameCat.oldName}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono-accent block mb-1.5">
+                  New Category Name
+                </label>
+                <Input
+                  data-testid="rename-category-input-photo"
+                  value={renameCat.newName}
+                  onChange={(e) => setRenameCat({ ...renameCat, newName: e.target.value })}
+                  placeholder="e.g. Raptors & Owls, Avian, Forest Wildlife"
+                  className="bg-neutral-950 border-white/20 rounded-none text-white text-sm"
+                  autoFocus
+                />
+              </div>
+
+              <div className="p-3 bg-neutral-900/80 border border-white/10">
+                <p className="text-xs text-neutral-300 leading-relaxed">
+                  ✨ <strong>{renameCat.count} photo(s)</strong> currently under{" "}
+                  <span className="text-accent">"{renameCat.oldName}"</span> will automatically be updated to{" "}
+                  <span className="text-white font-medium">"{renameCat.newName.trim() || '...'}"</span> across your portfolio.
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setRenameCat(null)}
+                  className="rounded-none border border-white/20 text-neutral-300 hover:text-white"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={renamingCatLoading || !renameCat.newName.trim()}
+                  className="rounded-none bg-accent text-black hover:bg-gold-hover uppercase tracking-wider text-xs gap-2"
+                >
+                  {renamingCatLoading ? <Loader2 className="animate-spin" size={14} /> : <Check size={14} />}
+                  Save New Name
+                </Button>
+              </div>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -1397,6 +1534,7 @@ function SiteTab({ site: propSite, setSite: propSetSite, onUploadToSeries }) {
   const [newColl, setNewColl] = useState("");
   const [newCat, setNewCat] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [renameModal, setRenameModal] = useState(null); // { oldName: "", newName: "", count: 0 }
   const [selectedGalleryPhoto, setSelectedGalleryPhoto] = useState("");
   const logoRef = useRef();
   const heroRef = useRef();
@@ -1593,6 +1731,40 @@ function SiteTab({ site: propSite, setSite: propSetSite, onUploadToSeries }) {
       setDeleteConfirm(null);
     } catch {
       toast.error("Failed to remove category.");
+    } finally {
+      setSaving((s) => ({ ...s, cats: false }));
+    }
+  };
+
+  const handleRenameCategory = async () => {
+    if (!renameModal) return;
+    const oldName = renameModal.oldName;
+    const newName = (renameModal.newName || "").trim();
+    if (!newName) {
+      toast.error("Please enter a category name.");
+      return;
+    }
+    if (oldName === newName) {
+      setRenameModal(null);
+      return;
+    }
+    if (siteCategories.some((c) => c.toLowerCase() === newName.toLowerCase() && c.toLowerCase() !== oldName.toLowerCase())) {
+      toast.error(`Category "${newName}" already exists.`);
+      return;
+    }
+    setSaving((s) => ({ ...s, cats: true }));
+    try {
+      const res = await renameCategory(oldName, newName);
+      if (res.site) {
+        setSite(res.site);
+        propSetSite?.(res.site);
+      }
+      const refreshedPhotos = await getPhotos();
+      setAllPhotos(refreshedPhotos);
+      toast.success(`Category "${oldName}" renamed to "${newName}" (${res.updatedPhotosCount || 0} frames updated).`);
+      setRenameModal(null);
+    } catch (err) {
+      toast.error(err.message || "Failed to rename category.");
     } finally {
       setSaving((s) => ({ ...s, cats: false }));
     }
@@ -2038,22 +2210,34 @@ function SiteTab({ site: propSite, setSite: propSetSite, onUploadToSeries }) {
           {siteCategories.map((c) => {
             const count = allPhotos.filter((p) => p.category === c).length;
             return (
-              <div key={c} className="flex items-center justify-between p-3.5 bg-neutral-950 border border-white/10">
+              <div key={c} className="flex items-center justify-between p-3.5 bg-neutral-950 border border-white/10 hover:border-white/20 transition-all">
                 <div className="flex items-center gap-2">
                   <span className="font-mono-accent text-xs uppercase tracking-wider text-white font-medium">{c}</span>
                   <span className="text-[10px] font-mono-accent text-neutral-400 bg-white/5 px-2 py-0.5 border border-white/10">
                     {count} {count === 1 ? "frame" : "frames"}
                   </span>
                 </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => promptRemoveCategory(c)}
-                  className="h-7 w-7 p-0 text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-none transition-colors"
-                  title={`Remove category "${c}"`}
-                >
-                  <Trash2 size={13} />
-                </Button>
+                <div className="flex items-center gap-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    data-testid={`rename-cat-btn-${c.toLowerCase()}`}
+                    onClick={() => setRenameModal({ oldName: c, newName: c, count })}
+                    className="h-7 w-7 p-0 text-neutral-400 hover:text-accent hover:bg-accent/10 rounded-none transition-colors"
+                    title={`Rename category "${c}"`}
+                  >
+                    <Pencil size={13} />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => promptRemoveCategory(c)}
+                    className="h-7 w-7 p-0 text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-none transition-colors"
+                    title={`Remove category "${c}"`}
+                  >
+                    <Trash2 size={13} />
+                  </Button>
+                </div>
               </div>
             );
           })}
@@ -2351,6 +2535,74 @@ function SiteTab({ site: propSite, setSite: propSetSite, onUploadToSeries }) {
                 )}
               </div>
             </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Rename Category Dialog */}
+      <Dialog open={Boolean(renameModal)} onOpenChange={(open) => !open && setRenameModal(null)}>
+        <DialogContent className="bg-[#0A0A0A] border border-white/20 text-white rounded-none max-w-md p-6">
+          <DialogHeader>
+            <DialogTitle className="font-serif text-2xl text-white">Rename Category</DialogTitle>
+          </DialogHeader>
+          {renameModal && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleRenameCategory();
+              }}
+              className="space-y-4 mt-2"
+            >
+              <div>
+                <label className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono-accent block mb-1.5">
+                  Current Name
+                </label>
+                <div className="font-mono-accent text-xs uppercase tracking-wider text-accent bg-white/5 border border-white/10 px-3 py-2">
+                  {renameModal.oldName}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] text-neutral-400 uppercase tracking-wider font-mono-accent block mb-1.5">
+                  New Category Name
+                </label>
+                <Input
+                  data-testid="rename-category-input-site"
+                  value={renameModal.newName}
+                  onChange={(e) => setRenameModal({ ...renameModal, newName: e.target.value })}
+                  placeholder="e.g. Raptors & Owls, Avian, Forest Wildlife"
+                  className="bg-neutral-950 border-white/20 rounded-none text-white text-sm"
+                  autoFocus
+                />
+              </div>
+
+              <div className="p-3 bg-neutral-900/80 border border-white/10">
+                <p className="text-xs text-neutral-300 leading-relaxed">
+                  ✨ <strong>{renameModal.count} photo(s)</strong> currently under{" "}
+                  <span className="text-accent">"{renameModal.oldName}"</span> will automatically be updated to{" "}
+                  <span className="text-white font-medium">"{renameModal.newName.trim() || '...'}"</span> across your portfolio.
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setRenameModal(null)}
+                  className="rounded-none border border-white/20 text-neutral-300 hover:text-white"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={saving.cats || !renameModal.newName.trim()}
+                  className="rounded-none bg-accent text-black hover:bg-gold-hover uppercase tracking-wider text-xs gap-2"
+                >
+                  {saving.cats ? <Loader2 className="animate-spin" size={14} /> : <Check size={14} />}
+                  Save New Name
+                </Button>
+              </div>
+            </form>
           )}
         </DialogContent>
       </Dialog>
@@ -3531,6 +3783,8 @@ export default function Admin() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      document.body.classList.remove("has-custom-cursor");
+      document.body.style.cursor = "default";
       const token = localStorage.getItem("admin_token");
       if (token) setAuthed(true);
     }
